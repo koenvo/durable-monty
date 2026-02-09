@@ -1,0 +1,49 @@
+[project]
+name = "durable-monty"
+version = "0.1.0"
+description = "Durable functions using monty-python"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic-monty>=0.0.3",
+    "sqlalchemy>=2.0.0",
+    "rq>=1.15.0",
+    "redis>=5.0.0",
+]
+
+[project.optional-dependencies]
+postgres = ["psycopg[binary]>=3.1.0"]
+dev = ["pytest>=7.0.0"]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/durable-monty"
+Documentation = "https://github.com/yourusername/durable-monty#readme"
+Repository = "https://github.com/yourusername/durable-monty"
+Issues = "https://github.com/yourusername/durable-monty/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"
+
+[tool.black]
+line-length = 100
+target-version = ['py310', 'py311', 'py312']
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
