@@ -38,13 +38,13 @@ jobs:
 
       - name: Test sdist
         run: |
-          uv pip install --python ${{ env.PYTHON_VERSION }} dist/*.tar.gz
-          uv run python -c 'import durable_monty'
+          uv pip install --system --python ${{ env.PYTHON_VERSION }} dist/*.tar.gz
+          python -c 'import durable_monty'
 
       - name: Test wheel
         run: |
-          uv pip install --python ${{ env.PYTHON_VERSION }} --force-reinstall dist/*.whl
-          uv run python -c 'import durable_monty'
+          uv pip install --system --python ${{ env.PYTHON_VERSION }} --force-reinstall dist/*.whl
+          python -c 'import durable_monty'
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
