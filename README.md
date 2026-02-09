@@ -31,7 +31,7 @@ Output: `['processed_a', 'processed_b', 'processed_c']`
 ## Install
 
 ```bash
-pip install durable-monty
+uv add durable-monty
 ```
 
 ## How It Works
@@ -47,7 +47,7 @@ State survives restarts. Parallel execution. Pure Python.
 
 **Redis Queue:**
 ```bash
-pip install durable-monty[rq]
+uv add durable-monty --extra rq
 ```
 
 ```python
@@ -61,7 +61,7 @@ worker.run()
 
 **Event-driven (Lambda, Modal):**
 ```bash
-pip install durable-monty[api]
+uv add durable-monty --extra api
 ```
 
 ```python
@@ -83,8 +83,8 @@ uvicorn.run(app, port=8000)
 ## Development
 
 ```bash
-git clone https://github.com/yourusername/durable-monty
-cd durable-monty
+git clone https://github.com/koenvo/monty-durable
+cd monty-durable
 uv sync
 uv run pytest
 ```
