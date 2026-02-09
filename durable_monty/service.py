@@ -37,7 +37,7 @@ class OrchestratorService:
             session.commit()
             return execution_id
 
-    def _process_execution(
+    def process_execution(
         self,
         execution_id: str,
         resume_group_id: str | None = None,
@@ -206,7 +206,7 @@ class OrchestratorService:
                 }
 
             # All completed - resume!
-            self._process_execution(execution_id, resume_group_id)
+            self.process_execution(execution_id, resume_group_id)
 
             # Re-query to get updated status
             execution = session.query(Execution).filter_by(id=execution_id).first()

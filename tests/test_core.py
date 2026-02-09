@@ -20,7 +20,7 @@ sum(results)
 
     # Schedule and start
     exec_id = service.start_execution(code, ["add"])
-    service._process_execution(exec_id)
+    service.process_execution(exec_id)
 
     # Check pending calls created
     result = service.poll(exec_id)

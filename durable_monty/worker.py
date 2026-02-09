@@ -67,7 +67,7 @@ class Worker:
             for execution in scheduled:
                 try:
                     logger.info(f"Starting execution {execution.id[:8]}...")
-                    self.service._process_execution(execution.id)
+                    self.service.process_execution(execution.id)
                 except Exception as e:
                     logger.error(f"Error starting {execution.id[:8]}: {e}")
 
