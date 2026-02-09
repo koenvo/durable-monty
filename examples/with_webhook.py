@@ -7,7 +7,8 @@ import time
 import threading
 import httpx
 import uvicorn
-from durable_monty import init_db, OrchestratorService, Worker, register_function, create_app
+from durable_monty import init_db, OrchestratorService, Worker, register_function
+from durable_monty.api import create_app
 from durable_monty.executor import Executor
 
 

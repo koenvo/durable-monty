@@ -65,7 +65,7 @@ uv add durable-monty --extra api
 ```
 
 ```python
-from durable_monty import create_app
+from durable_monty.api import create_app
 import uvicorn
 
 app = create_app(service)
