@@ -1,17 +1,13 @@
-"""Example showing the new worker-based flow."""
+"""Worker-based execution.
 
-import logging
+Run: uv run python examples/with_worker.py
+"""
+
 import time
-from durable_monty import init_db, OrchestratorService, Worker, register_function
-
-# Setup logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+import threading
+from durable_monty import init_db, OrchestratorService, Worker, register_function, LocalExecutor
 
 
-# Register functions
 @register_function("add")
 def add(a, b):
     return a + b
@@ -22,40 +18,25 @@ def multiply(a, b):
     return a * b
 
 
-# Workflow code
 code = """
 from asyncio import gather
-results = await gather(
-    add(1, 2),
-    add(3, 4),
-    multiply(5, 6)
-)
+results = await gather(add(1, 2), add(3, 4), multiply(5, 6))
 sum(results)
 """
 
 if __name__ == "__main__":
-    # Initialize
-    engine = init_db("sqlite:///worker_example.db")
-    service = OrchestratorService(engine)
+    service = OrchestratorService(init_db("sqlite:///worker.db"))
 
-    # 1. User: Schedule execution
-    print("=== User: Scheduling execution ===")
+    # Schedule execution
     exec_id = service.start_execution(code, ["add", "multiply"])
-    print(f"Scheduled execution: {exec_id}\n")
+    print(f"Scheduled: {exec_id[:8]}...")
 
-    # 2. Worker: Run in background (simulated with a few iterations)
-    print("=== Worker: Processing ===")
-    from durable_monty import LocalExecutor
-
-    worker = Worker(service, LocalExecutor(), poll_interval=0.1)
-
-    # Run worker for a few seconds
-    import threading
+    # Run worker
+    executor = LocalExecutor()
+    worker = Worker(service, executor, poll_interval=0.1)
 
     def run_worker():
-        for _ in range(30):  # Run for 3 seconds
-            if not worker.running:
-                break
+        for _ in range(30):
             worker._process_scheduled()
             worker._process_pending_calls()
             worker._process_submitted_jobs()
@@ -63,12 +44,10 @@ if __name__ == "__main__":
             time.sleep(0.1)
 
     worker.running = True
-    worker_thread = threading.Thread(target=run_worker)
-    worker_thread.start()
-    worker_thread.join()
+    thread = threading.Thread(target=run_worker)
+    thread.start()
+    thread.join()
 
-    # 3. User: Check result
-    print("\n=== User: Checking result ===")
+    # Check result
     result = service.poll(exec_id)
-    print(f"Status: {result['status']}")
-    print(f"Output: {result['output']}")
+    print(f"Status: {result['status']}, Output: {result['output']}")
