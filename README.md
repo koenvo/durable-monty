@@ -12,7 +12,7 @@ Durable functions are workflows that survive crashes and restarts. Your code pau
 
 ## How It Works
 
-Powered by [monty-python](https://github.com/lix-tech/pydantic-monty) - a sandboxed Python interpreter that can pause and serialize execution state. When your code hits `await gather()`, Monty captures the exact execution state (~800 bytes), returns pending tasks, and later resumes from that exact point with results.
+Powered by [monty-python](https://github.com/pydantic/monty) - a sandboxed Python interpreter that can pause and serialize execution state. When your code hits `await gather()`, Monty captures the exact execution state (~800 bytes), returns pending tasks, and later resumes from that exact point with results.
 
 **Result:** Pure Python async/await that works like Temporal or AWS Step Functions, but simpler.
 
