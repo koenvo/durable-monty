@@ -5,7 +5,7 @@ Write normal Python async/await code that can pause, persist state,
 execute tasks in parallel, and resume when results are ready.
 """
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
 from durable_monty.models import init_db, Execution, Call, ExecutionStatus, CallStatus
 from durable_monty.service import OrchestratorService
