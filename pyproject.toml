@@ -1,7 +1,8 @@
 [project]
 name = "durable-monty"
-version = "0.1.4"
+version = "0.1.5"
 description = "Durable functions using monty-python"
+readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "pydantic-monty>=0.0.3",
